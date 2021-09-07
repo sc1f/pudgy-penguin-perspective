@@ -1,0 +1,10 @@
+
+static
+node_modules
+__pycache__
+.DS_Store
+*.arrow
+yarn-error.log
+dist
+images
+*.json

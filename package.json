@@ -1,0 +1,28 @@
+{
+  "name": "pudgy-penguins-perspective",
+  "private": true,
+  "version": "0.0.1",
+  "description": "A perspective-workspace to visualize Pudgy Penguin transactions and price movements.",
+  "scripts": {
+    "start": "webpack serve --open",
+    "build": "webpack --color",
+    "clean": "rimraf dist"
+  },
+  "author": "tanjunyuan@hotmail.co.uk",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@finos/perspective": "^0.10.3",
+    "@finos/perspective-viewer": "^0.10.3",
+    "@finos/perspective-viewer-d3fc": "^0.10.3",
+    "@finos/perspective-viewer-datagrid": "^0.10.3",
+    "react": "16.8.6",
+    "react-dom": "16.8.6"
+  },
+  "devDependencies": {
+    "@finos/perspective-webpack-plugin": "^0.10.3",
+    "@types/react": "^16.8.6",
+    "@types/react-dom": "^16.9.4",
+    "source-map-loader": "^0.2.4",
+    "ts-loader": "^6.2.1"
+  }
+}
