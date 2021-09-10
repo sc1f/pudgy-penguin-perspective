@@ -6,6 +6,10 @@
     height: 100%;
 }
 
+/* #canvas {
+    display: none;
+} */
+
 .container {
     display: flex;
 }

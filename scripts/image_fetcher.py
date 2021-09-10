@@ -60,9 +60,9 @@ def download_images(images):
         print("saved", name)
 
 def process_images():
-    PATH = os.path.join(HERE, "..", "..", "images")
-    WIDTH = 18800
-    HEIGHT = 19000
+    PATH = "/Volumes/files/projects/nft_perspective/images"
+    WIDTH = int(18800 / 2)
+    HEIGHT = int(19000 / 2)
     output_image = Image.new("RGB", (WIDTH, HEIGHT), "white")
     x, y = 0, 0
 
@@ -76,6 +76,7 @@ def process_images():
             continue
         try:
             with Image.open(os.path.join(PATH, input_img)) as img:
+                resized = img.resize((100, 100))
                 x_remaining = WIDTH - x
                 y_remaining = HEIGHT - y
 
@@ -85,7 +86,7 @@ def process_images():
 
                 if x_remaining == 0:
                     print("Breaking to next line, x: {}, y: {}, x_remaining: {}, y_remaining: {}".format(x, y, x_remaining, y_remaining))
-                    y += 200
+                    y += 100
                     x = 0
                 
                 box = (x, y)
@@ -93,16 +94,16 @@ def process_images():
                 asset_id = int(input_img.split(".png")[0])
 
                 if asset_id in lookup:
-                    raise ValueError("Collision at {}".format(img.filename))
+                    raise ValueError("Collision at {}".format(resized.filename))
 
                     # x0, x1, y0, y1
-                lookup[asset_id] = [x, x + 200, y, y + 200]
+                lookup[asset_id] = [x, x + 100, y, y + 100]
 
                 print(img.filename, box)
 
-                output_image.paste(img, box)
+                output_image.paste(resized, box)
 
-                x += 200
+                x += 100
         except OSError as err:
             print("Failed at image", input_img, err)
             continue

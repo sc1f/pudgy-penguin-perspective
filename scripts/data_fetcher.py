@@ -135,7 +135,10 @@ def clean_existing_arrow():
         table = Table(arr.read(), index="transaction_hash")
         cols = table.columns()
         view = table.view(columns=[c for c in cols if c not in ("seller_username", "buyer_username")])
-        new_arrow = view.to_arrow()
+        df = view.to_df()
+        df["image"] = df["asset_token_id"].astype(str)
+        t2 = Table(df, index="transaction_hash")
+        new_arrow = t2.view(columns=[c for c in t2.columns() if c != "index"]).to_arrow()
 
     with open(new_arrow_path, "wb") as new_arrow_binary:
         new_arrow_binary.write(new_arrow)
