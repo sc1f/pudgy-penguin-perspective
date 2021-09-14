@@ -10,10 +10,6 @@ from perspective import Table
 PENGUINS_CONTRACT = "0xbd3531da5cf5857e7cfaa92426877b022e612cf8"
 ROOT_URL = "https://api.opensea.io/api/v1"
 HERE = os.path.dirname(os.path.realpath(__file__))
-LOOKUP_JSON = None
-
-with open(os.path.join(HERE, "..", "lookup.json"), "r") as lookup:
-    LOOKUP_JSON = json.loads(lookup.read())
 
 
 def parse_event(event):
@@ -43,12 +39,6 @@ def parse_event(event):
     parsed["price"] = float(event["total_price"]) / float(
         10 ** event["payment_token"]["decimals"]
     )
-
-    if event["seller"].get("user"):
-        parsed["seller_username"] = event["seller"]["user"]["username"]
-
-    if event["winner_account"].get("user"):
-        parsed["buyer_username"] = event["winner_account"]["user"]["username"]
 
     parsed["seller_address"] = event["seller"]["address"]
     parsed["buyer_address"] = event["winner_account"]["address"]
@@ -125,8 +115,6 @@ def clean_existing_arrow():
         cols = table.columns()
         view = table.view(columns=[c for c in cols if c not in ("seller_username", "buyer_username")])
         df = view.to_df()
-        for c in ["x0", "y0", "x1", "y1"]:
-            df = df.drop(c, axis=1)
         df["image"] = df["asset_token_id"]
         t2 = Table(df, index="transaction_hash")
         new_arrow = t2.view(columns=[c for c in t2.columns() if c != "index"]).to_arrow()
@@ -141,7 +129,7 @@ if __name__ == "__main__":
     # df = fetch_events(PENGUINS_CONTRACT)
     # table = Table(df, index="transaction_hash")
     # arrow = table.view().to_arrow()
-    # arrow_path = os.path.join(HERE, "..", "..", "data.arrow")
+    # arrow_path = os.path.join(HERE, "..", "static", "data.arrow")
     # with open(arrow_path, "wb") as arrow_binary:
     #     arrow_binary.write(arrow)
     #     print("Saved arrow to: {}".format(arrow_path))

@@ -61,8 +61,8 @@ def download_images(images):
 
 def process_images():
     PATH = "/Volumes/files/projects/nft_perspective/images"
-    WIDTH = int(18800 / 2)
-    HEIGHT = int(19000 / 2)
+    WIDTH = int(18800 / 4)
+    HEIGHT = int(19000 / 4)
     output_image = Image.new("RGB", (WIDTH, HEIGHT), "white")
     x, y = 0, 0
 
@@ -76,7 +76,7 @@ def process_images():
             continue
         try:
             with Image.open(os.path.join(PATH, input_img)) as img:
-                resized = img.resize((100, 100))
+                resized = img.resize((50, 50))
                 x_remaining = WIDTH - x
                 y_remaining = HEIGHT - y
 
@@ -86,7 +86,7 @@ def process_images():
 
                 if x_remaining == 0:
                     print("Breaking to next line, x: {}, y: {}, x_remaining: {}, y_remaining: {}".format(x, y, x_remaining, y_remaining))
-                    y += 100
+                    y += 50
                     x = 0
                 
                 box = (x, y)
@@ -97,18 +97,18 @@ def process_images():
                     raise ValueError("Collision at {}".format(resized.filename))
 
                     # x0, x1, y0, y1
-                lookup[asset_id] = [x, x + 100, y, y + 100]
+                lookup[asset_id] = [x, x + 50, y, y + 50]
 
                 print(img.filename, box)
 
                 output_image.paste(resized, box)
 
-                x += 100
+                x += 50
         except OSError as err:
             print("Failed at image", input_img, err)
             continue
 
-    output_image.save(os.path.join(PATH, "output", "full_{}.jpg".format(datetime.now())))
+    output_image.save(os.path.join(PATH, "output", "full_{}.jpg".format(datetime.now())), quality=100)
 
     from json import dumps
 

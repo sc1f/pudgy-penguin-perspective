@@ -1,4 +1,4 @@
-#main {
+#main, .modal-background {
     position: absolute;
     top: 0;
     left: 0;
@@ -12,6 +12,54 @@
 
 .container {
     display: flex;
+    flex-direction: column;
+}
+
+.footer {
+    background: #eee;
+    border-top: 1px solid #eaeaea;
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    align-items: center;
+    justify-content: space-between;
+    height: 30px;
+    font-family: "Open Sans", sans-serif;
+    padding: 10px;
+}
+
+.footer-meta {
+    display: flex;
+    font-size: 11px;
+    align-items: center;
+}
+
+.footer-meta > a {
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+.footer-meta p {
+    color: rgb(80, 80, 80);
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#reset_config {
+    background: #eee;
+    border: none;
+    border-radius: 3px;
+    color: rgb(80, 80, 80);
+    font-family: "Open Sans", sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#reset_config:hover {
+    background: #eaeaea;
 }
 
 a.data-permalink {
@@ -26,6 +74,13 @@ regular-table {
     font-family: "Roboto Mono", monospace;
 }
 
+regular-table tbody tr {
+    height: 50px !important;
+}
+
+perspective-viewer.workspace-master-widget regular-table tbody tr:first-of-type {
+    height: auto !important;
+}
 
 #progress {
     background: #f2f4f6;
