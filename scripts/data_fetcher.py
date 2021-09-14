@@ -57,17 +57,6 @@ def parse_event(event):
     )
     parsed["transaction_hash"] = event["transaction"]["transaction_hash"]
 
-    # add x0, x1, y0, y1 of the dataset
-    coordinates = LOOKUP_JSON.get(str(parsed["asset_token_id"]))
-
-    if not coordinates:
-        print("Could not find coordinates for token ID: {}".format(parsed["asset_token_id"]))
-
-    parsed["x0"] = coordinates[0]
-    parsed["x1"] = coordinates[1]
-    parsed["y0"] = coordinates[2]
-    parsed["y1"] = coordinates[3]
-
     return parsed
 
 
@@ -136,7 +125,9 @@ def clean_existing_arrow():
         cols = table.columns()
         view = table.view(columns=[c for c in cols if c not in ("seller_username", "buyer_username")])
         df = view.to_df()
-        df["image"] = df["asset_token_id"].astype(str)
+        for c in ["x0", "y0", "x1", "y1"]:
+            df = df.drop(c, axis=1)
+        df["image"] = df["asset_token_id"]
         t2 = Table(df, index="transaction_hash")
         new_arrow = t2.view(columns=[c for c in t2.columns() if c != "index"]).to_arrow()
 

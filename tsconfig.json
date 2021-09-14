@@ -10,7 +10,6 @@
         "noImplicitReturns": true,
         "noImplicitThis": true,
         "noImplicitUseStrict": false,
-        "noUnusedLocals": true,
         "strictNullChecks": true,
         "skipLibCheck": true,
         "removeComments": false,

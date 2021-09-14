@@ -13,3 +13,85 @@
 .container {
     display: flex;
 }
+
+a.data-permalink {
+    color: rgb(51, 141, 205);
+}
+
+a.data-permalink:visited {
+    color: rgb(51, 141, 205);
+}
+
+regular-table {
+    font-family: "Roboto Mono", monospace;
+}
+
+
+#progress {
+    background: #f2f4f6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100000;
+}
+
+.slider {
+    position: absolute;
+    width: 250px;
+    height: 10px;
+    overflow-x: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -125px;
+    margin-top: -5px;
+    z-index: 1000000;
+}
+
+.line {
+    position: absolute;
+    opacity: 0.4;
+    background: rgb(175, 175, 175);
+    width: 150%;
+    height: 5px;
+}
+
+.subline {
+    position: absolute;
+    background: rgb(153, 153, 153);
+    height: 5px;
+}
+
+.inc {
+    animation: increase 2s infinite;
+}
+
+.dec {
+    animation: decrease 2s 0.5s infinite;
+}
+
+@keyframes increase {
+    from {
+        left: -5%;
+        width: 5%;
+    }
+
+    to {
+        left: 130%;
+        width: 100%;
+    }
+}
+
+@keyframes decrease {
+    from {
+        left: -80%;
+        width: 80%;
+    }
+
+    to {
+        left: 110%;
+        width: 10%;
+    }
+}
