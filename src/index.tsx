@@ -13,6 +13,8 @@ import "@finos/perspective-workspace";
 import "./index.css";
 import "@finos/perspective-workspace/dist/umd/material.css";
 
+import default_config from "./config.json";
+
 // Required because perspective-workspace doesn't export type declarations
 declare global {
     namespace JSX {
@@ -32,16 +34,6 @@ const getTable = async (): Promise<Table> => {
     const resp = await req;
     const buffer = await resp.arrayBuffer();
     return await worker.table(buffer as any);
-};
-
-const default_config: any = {
-    detail: {
-        main: {
-            currentIndex: 0,
-            type: "tab-area",
-            widgets: [{table: "asset_events"}],
-        },
-    },
 };
 
 const VIEWER_CACHE: Record<string, Array<HTMLCanvasElement>> = {};
@@ -72,7 +64,7 @@ const makeCanvas = (
 const matchColumn = (meta: any, column_name: string): boolean => {
     return (
         meta?.column_header?.length === 1 &&
-        meta.column_header[0].includes(column_name)
+        meta.column_header[0] === column_name
     );
 };
 
@@ -189,9 +181,6 @@ const drawImage = (
 
                         a.classList.add("data-permalink");
                         td.appendChild(a);
-                    } else if (matchColumn(meta, "price")) {
-                        // TODO
-                        td.classList.toggle("data-price");
                     }
                 }
             }
