@@ -1,287 +1,235 @@
 {
-  "sizes": [0.11761614827856025, 0.8823838517214397],
-  "detail": {
-    "main": {
-      "type": "split-area",
-      "orientation": "horizontal",
-      "children": [
-        {
-          "type": "split-area",
-          "orientation": "vertical",
-          "children": [
-            {
-              "type": "split-area",
-              "orientation": "horizontal",
-              "children": [
+    "sizes": [
+        1
+    ],
+    "detail": {
+        "main": {
+            "type": "split-area",
+            "orientation": "horizontal",
+            "children": [
                 {
-                  "type": "tab-area",
-                  "widgets": ["PERSPECTIVE_GENERATED_ID_1"],
-                  "currentIndex": 0
+                    "type": "split-area",
+                    "orientation": "vertical",
+                    "children": [
+                        {
+                            "type": "tab-area",
+                            "widgets": [
+                                "PERSPECTIVE_GENERATED_ID_1",
+                                "PERSPECTIVE_GENERATED_ID_2"
+                            ],
+                            "currentIndex": 0
+                        },
+                        {
+                            "type": "tab-area",
+                            "widgets": [
+                                "PERSPECTIVE_GENERATED_ID_4"
+                            ],
+                            "currentIndex": 0
+                        }
+                    ],
+                    "sizes": [
+                        0.5,
+                        0.5
+                    ]
                 },
                 {
-                  "type": "tab-area",
-                  "widgets": [
-                    "PERSPECTIVE_GENERATED_ID_6",
-                    "PERSPECTIVE_GENERATED_ID_7"
-                  ],
-                  "currentIndex": 0
+                    "type": "split-area",
+                    "orientation": "vertical",
+                    "children": [
+                        {
+                            "type": "tab-area",
+                            "widgets": [
+                                "PERSPECTIVE_GENERATED_ID_0"
+                            ],
+                            "currentIndex": 0
+                        },
+                        {
+                            "type": "tab-area",
+                            "widgets": [
+                                "PERSPECTIVE_GENERATED_ID_5"
+                            ],
+                            "currentIndex": 0
+                        }
+                    ],
+                    "sizes": [
+                        0.5,
+                        0.5
+                    ]
                 }
-              ],
-              "sizes": [0.6005452196630005, 0.39945478033699955]
+            ],
+            "sizes": [
+                0.5,
+                0.5
+            ]
+        }
+    },
+    "mode": "globalFilters",
+    "viewers": {
+        "PERSPECTIVE_GENERATED_ID_1": {
+            "plugin": "Custom Heatmap",
+            "plugin_config": {},
+            "settings": false,
+            "row_pivots": [
+                "bucket(\"transaction_timestamp\", 'D')"
+            ],
+            "column_pivots": [
+                "bucket(\"price\" * \"payment_token_usd_price\", 1000)"
+            ],
+            "columns": [
+                "\"price\" * \"payment_token_usd_price\""
+            ],
+            "filter": [
+                [
+                    "bucket(\"price\" * \"payment_token_usd_price\", 1000)",
+                    "<",
+                    35000
+                ]
+            ],
+            "sort": [
+                [
+                    "bucket(\"price\" * \"payment_token_usd_price\", 1000)",
+                    "col desc"
+                ]
+            ],
+            "expressions": [
+                "bucket(\"transaction_timestamp\", 'D')",
+                "hour_of_day(\"transaction_timestamp\")",
+                "bucket(\"price\" * \"payment_token_usd_price\", 1000)",
+                "\"price\" * \"payment_token_usd_price\""
+            ],
+            "aggregates": {
+                "bucket(\"price\" * \"payment_token_usd_price\", 1000)": "dominant"
             },
-            {
-              "type": "tab-area",
-              "widgets": ["PERSPECTIVE_GENERATED_ID_5"],
-              "currentIndex": 0
-            }
-          ],
-          "sizes": [0.6952849731434123, 0.30471502685658763]
+            "master": false,
+            "name": "Px by price bucket",
+            "table": "asset_events",
+            "linked": false
         },
-        {
-          "type": "split-area",
-          "orientation": "vertical",
-          "children": [
-            {
-              "type": "tab-area",
-              "widgets": ["PERSPECTIVE_GENERATED_ID_3"],
-              "currentIndex": 0
+        "PERSPECTIVE_GENERATED_ID_2": {
+            "plugin": "Custom Heatmap",
+            "plugin_config": {
+                "zoom": {
+                    "k": 1,
+                    "x": 0,
+                    "y": 0
+                }
             },
-            {
-              "type": "tab-area",
-              "widgets": ["PERSPECTIVE_GENERATED_ID_2"],
-              "currentIndex": 0
+            "settings": false,
+            "row_pivots": [
+                "bucket(\"transaction_timestamp\", 'D')"
+            ],
+            "column_pivots": [
+                "hour_of_day(\"transaction_timestamp\")"
+            ],
+            "columns": [
+                "buyer_address"
+            ],
+            "filter": [],
+            "sort": [],
+            "expressions": [
+                "bucket(\"transaction_timestamp\", 'D')",
+                "hour_of_day(\"transaction_timestamp\")",
+                "bucket(\"price\" * \"payment_token_usd_price\", 1000)",
+                "\"price\" * \"payment_token_usd_price\""
+            ],
+            "aggregates": {},
+            "master": false,
+            "name": "Px by hour of day",
+            "table": "asset_events",
+            "linked": false
+        },
+        "PERSPECTIVE_GENERATED_ID_4": {
+            "plugin": "Custom Ybar",
+            "plugin_config": {},
+            "settings": true,
+            "row_pivots": [
+                "bucket(\"transaction_timestamp\", 'D')"
+            ],
+            "column_pivots": [
+                "payment_token_symbol"
+            ],
+            "columns": [
+                "transaction_hash"
+            ],
+            "filter": [
+                [
+                    "payment_token_symbol",
+                    "!=",
+                    "DAI"
+                ]
+            ],
+            "sort": [],
+            "expressions": [
+                "bucket(\"transaction_timestamp\", 'D')",
+                "\"price\" * \"payment_token_usd_price\""
+            ],
+            "aggregates": {
+                "transaction_hash": "count"
             },
-            {
-              "type": "tab-area",
-              "widgets": ["PERSPECTIVE_GENERATED_ID_4"],
-              "currentIndex": 0
-            }
-          ],
-          "sizes": [0.3310344827586207, 0.3219899868396565, 0.34697553040172285]
+            "master": false,
+            "name": "Transactions by time",
+            "table": "asset_events",
+            "linked": false
+        },
+        "PERSPECTIVE_GENERATED_ID_0": {
+            "plugin": "Custom Datagrid",
+            "plugin_config": {
+                "buyer": {
+                    "column_size_override": 192.688
+                },
+                "seller": {
+                    "column_size_override": 170.469
+                }
+            },
+            "settings": false,
+            "row_pivots": [],
+            "column_pivots": [],
+            "columns": [
+                "image",
+                "transaction_timestamp",
+                "asset_name",
+                "Price USD",
+                "buyer",
+                "seller",
+                "permalink"
+            ],
+            "filter": [],
+            "sort": [],
+            "expressions": [
+                "// Price USD\n\"price\" * \"payment_token_usd_price\""
+            ],
+            "aggregates": {},
+            "master": false,
+            "name": "Blotter",
+            "table": "asset_events",
+            "linked": false
+        },
+        "PERSPECTIVE_GENERATED_ID_5": {
+            "plugin": "Custom Datagrid",
+            "plugin_config": {},
+            "settings": false,
+            "row_pivots": [
+                "bucket(\"image\", 100)"
+            ],
+            "column_pivots": [
+                "\"image\" % 100"
+            ],
+            "columns": [
+                "image"
+            ],
+            "filter": [],
+            "sort": [],
+            "expressions": [
+                "bucket(\"image\", 100)",
+                "\"image\" % 100"
+            ],
+            "aggregates": {
+                "image": "unique"
+            },
+            "master": false,
+            "name": "All",
+            "table": "asset_events",
+            "linked": false
         }
-      ],
-      "sizes": [0.6202253850739466, 0.37977461492605336]
     }
-  },
-  "mode": "globalFilters",
-  "master": {
-    "widgets": ["PERSPECTIVE_GENERATED_ID_0"],
-    "sizes": [1]
-  },
-  "viewers": {
-    "PERSPECTIVE_GENERATED_ID_0": {
-      "plugin": "Datagrid",
-      "plugin_config": {},
-      "settings": false,
-      "row_pivots": ["image"],
-      "column_pivots": [],
-      "columns": ["asset_name"],
-      "filter": [],
-      "sort": [],
-      "expressions": [],
-      "aggregates": {
-        "asset_name": "unique"
-      },
-      "master": true,
-      "name": "Global Filter",
-      "table": "asset_events",
-      "linked": false
-    },
-    "PERSPECTIVE_GENERATED_ID_1": {
-      "plugin": "Datagrid",
-      "plugin_config": {},
-      "settings": false,
-      "row_pivots": [],
-      "column_pivots": [],
-      "columns": [
-        "image",
-        "price in USD",
-        "price",
-        "payment_token_symbol",
-        "asset_name",
-        "event_datetime",
-        "asset_token_id",
-        "asset_num_sales",
-        "transaction_timestamp",
-        "permalink",
-        "buyer_address",
-        "seller_address"
-      ],
-      "filter": [],
-      "sort": [["price in USD", "desc"]],
-      "expressions": [
-        "// price in USD\n\"price\" * \"payment_token_usd_price\""
-      ],
-      "aggregates": {},
-      "master": false,
-      "name": "All Transactions by price",
-      "table": "asset_events",
-      "linked": false
-    },
-    "PERSPECTIVE_GENERATED_ID_6": {
-      "plugin": "Datagrid",
-      "plugin_config": {},
-      "settings": false,
-      "row_pivots": ["buyer_address", "image"],
-      "column_pivots": [],
-      "columns": ["name", "price in USD", "asset_name"],
-      "filter": [],
-      "sort": [
-        ["asset_name", "desc"],
-        ["price in USD", "desc"]
-      ],
-      "expressions": [
-        "// price in USD\n\"price\" * \"payment_token_usd_price\"",
-        "// name\n\"asset_name\""
-      ],
-      "aggregates": {
-        "name": "unique",
-        "asset_name": "distinct count"
-      },
-      "master": false,
-      "name": "Top Buyers",
-      "table": "asset_events",
-      "linked": false
-    },
-    "PERSPECTIVE_GENERATED_ID_7": {
-      "plugin": "Datagrid",
-      "plugin_config": {},
-      "settings": false,
-      "row_pivots": ["seller_address", "image"],
-      "column_pivots": [],
-      "columns": ["name", "price in USD", "asset_name"],
-      "filter": [],
-      "sort": [
-        ["asset_name", "desc"],
-        ["price in USD", "desc"]
-      ],
-      "expressions": [
-        "// price in USD\n\"price\" * \"payment_token_usd_price\"",
-        "// name\n\"asset_name\""
-      ],
-      "aggregates": {
-        "asset_name": "distinct count",
-        "price in USD": "sum",
-        "name": "unique"
-      },
-      "master": false,
-      "name": "Top Sellers",
-      "table": "asset_events",
-      "linked": false
-    },
-    "PERSPECTIVE_GENERATED_ID_5": {
-      "plugin": "Datagrid",
-      "plugin_config": {},
-      "settings": false,
-      "row_pivots": [],
-      "column_pivots": [],
-      "columns": [
-        "event_datetime",
-        "image",
-        "price in USD",
-        "price",
-        "asset_name",
-        "asset_num_sales",
-        "permalink"
-      ],
-      "filter": [],
-      "sort": [["event_datetime", "desc"]],
-      "expressions": [
-        "// price in USD\n\"price\" * \"payment_token_usd_price\""
-      ],
-      "aggregates": {
-        "price in USD": "last",
-        "price": "last",
-        "asset_name": "unique",
-        "asset_num_sales": "unique"
-      },
-      "master": false,
-      "name": "Transactions by time",
-      "table": "asset_events",
-      "linked": false
-    },
-    "PERSPECTIVE_GENERATED_ID_3": {
-      "plugin": "Y Bar",
-      "plugin_config": {
-        "zoom": {
-          "k": 0.6858666442953001,
-          "x": 145.1296103355714,
-          "y": 55.287470604027206
-        }
-      },
-      "settings": false,
-      "row_pivots": ["bucket(\"transaction_timestamp\", 'D')"],
-      "column_pivots": ["payment_token_symbol"],
-      "columns": ["price in USD"],
-      "filter": [],
-      "sort": [],
-      "expressions": [
-        "// price in USD\n\"price\" * \"payment_token_usd_price\"",
-        "bucket(\"transaction_timestamp\", 'D')"
-      ],
-      "aggregates": {
-        "price in USD": "sum"
-      },
-      "master": false,
-      "name": "USD Volume",
-      "table": "asset_events",
-      "linked": false
-    },
-    "PERSPECTIVE_GENERATED_ID_2": {
-      "plugin": "Y Line",
-      "plugin_config": {
-        "zoom": {
-          "k": 0.6588399758670701,
-          "x": 99.22426076891182,
-          "y": 47.30396959618156
-        }
-      },
-      "settings": false,
-      "row_pivots": ["bucket(\"transaction_timestamp\", 'D')"],
-      "column_pivots": [],
-      "columns": ["transaction_hash"],
-      "filter": [],
-      "sort": [],
-      "expressions": [
-        "// price in USD\n\"price\" * \"payment_token_usd_price\"",
-        "bucket(\"transaction_timestamp\", 'D')"
-      ],
-      "aggregates": {},
-      "master": false,
-      "name": "# of Sales/Day",
-      "table": "asset_events",
-      "linked": false
-    },
-    "PERSPECTIVE_GENERATED_ID_4": {
-      "plugin": "X/Y Scatter",
-      "plugin_config": {
-        "zoom": {
-          "k": 0.6138678419575302,
-          "x": 110.91161398379194,
-          "y": 107.58613299650348
-        }
-      },
-      "settings": false,
-      "row_pivots": [],
-      "column_pivots": [],
-      "columns": [
-        "bucket(\"transaction_timestamp\", 'D')",
-        "price in USD",
-        null,
-        null,
-        "asset_name"
-      ],
-      "filter": [["payment_token_symbol", "contains", "ETH"]],
-      "sort": [],
-      "expressions": [
-        "// price in USD\n\"price\" * \"payment_token_usd_price\"",
-        "bucket(\"transaction_timestamp\", 'D')"
-      ],
-      "aggregates": {},
-      "master": false,
-      "name": "Sale Prices",
-      "table": "asset_events",
-      "linked": false
-    }
-  }
 }

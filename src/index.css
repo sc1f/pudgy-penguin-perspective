@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
 #main, .modal-background {
     position: absolute;
     top: 0;
@@ -6,60 +8,79 @@
     height: 100%;
 }
 
-/* #canvas {
-    display: none;
-} */
-
 .container {
     display: flex;
     flex-direction: column;
 }
 
 .footer {
-    background: #eee;
-    border-top: 1px solid #eaeaea;
+    background: rgb(7, 8, 29) !important;
+    color: white;
+    border-top: 1px solid rgb(9, 33, 50);
     display: flex;
     flex-direction: row;
     align-content: space-between;
     align-items: center;
     justify-content: space-between;
     height: 30px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Lato";
     padding: 10px;
+}
+
+.footer path {
+    stroke: rgb(66, 182, 230);
+    fill: rgb(66, 182, 230);
+    transition: stroke 0.5s, fill 0.5s;
 }
 
 .footer-meta {
     display: flex;
-    font-size: 11px;
+    font-size: 12px;
     align-items: center;
 }
 
-.footer-meta > a {
-    margin-left: 20px;
+.footer-meta a:hover, .footer-meta a:hover:visited {
+    color: white;
+}
+
+.footer-meta a, .footer-meta a:visited {
+    color: rgb(66, 182, 230);
+    transition: color 0.5s;
+}
+
+#github-link {
+    margin-left: 10px;
     margin-right: 10px;
 }
 
+.footer #github-link:hover path {
+    stroke: white;
+    fill: white;
+}
+
 .footer-meta p {
-    color: rgb(80, 80, 80);
+    color: white;
     margin-left: 10px;
     margin-right: 10px;
 }
 
 #reset_config {
-    background: #eee;
-    border: none;
-    border-radius: 3px;
-    color: rgb(80, 80, 80);
-    font-family: "Open Sans", sans-serif;
+    background: transparent;
+    border: 1px solid rgb(9, 33, 50);
+    /* border-radius: 3px; */
+    color: rgb(66, 182, 230);
+    /* font-family: "Open Sans", sans-serif; */
     font-size: 11px;
-    text-transform: uppercase;
-    font-weight: bold;
+    /* text-transform: uppercase; */
+    /* font-weight: bold; */
     padding: 10px;
     cursor: pointer;
 }
 
 #reset_config:hover {
-    background: #eaeaea;
+    /* background: #eaeaea; */
+    border-color: rgb(66, 182, 230);
+    color: rgb(66, 182, 230);
 }
 
 a.data-permalink {
@@ -70,15 +91,19 @@ a.data-permalink:visited {
     color: rgb(51, 141, 205);
 }
 
-regular-table {
-    font-family: "Roboto Mono", monospace;
+custom-datagrid regular-table {
+    font-family: "Lato";
 }
 
-regular-table tbody tr {
+custom-datagrid regular-table td {
+    font-size: 16px;
+}
+
+custom-datagrid regular-table tbody tr {
     height: 50px !important;
 }
 
-perspective-viewer.workspace-master-widget regular-table tbody tr:first-of-type {
+perspective-viewer.workspace-master-widget custom-datagrid regular-table tbody tr:first-of-type {
     height: auto !important;
 }
 
@@ -149,4 +174,94 @@ perspective-viewer.workspace-master-widget regular-table tbody tr:first-of-type 
         left: 110%;
         width: 10%;
     }
+}
+
+perspective-viewer.workspace-detail-widget regular-table table tbody tr td, 
+perspective-viewer.workspace-detail-widget regular-table table tbody tr th {
+    border-top-color: var(--pp-color-1) !important;
+    /* border-top-color: rgb(173, 228, 246) !important; */
+}
+
+perspective-viewer.workspace-detail-widget regular-table table tbody th:empty {
+    background: linear-gradient(to right, transparent 9px, var(--pp-color-1) 10px, transparent 11px) !important;
+    background-repeat: no-repeat;
+    background-position: 0px -10px;
+}
+
+.is-timestamp:not(.psp-is-width-override) {
+    max-width: 120px !important;
+    min-width: 120px !important;
+    width: 120px !important;
+}
+
+td canvas {
+    margin-bottom: -4px;
+}
+
+td.penguin-canvas {
+    padding: 0px;
+}
+
+td.is-timestamp:not(.psp-is-width-override) {
+    white-space: break-spaces;
+}
+
+regular-table {
+    --pp-color-1: rgb(9, 33, 50);
+    --pp-color-2: rgb(66, 182, 230);
+    --rt-pos-cell--color: rgb(66, 182, 230) !important;
+}
+
+regular-table td, th {
+    --rt-hover--border-color: var(--pp-color-1) !important;
+}
+
+perspective-viewer.workspace-detail-widget {
+    --inactive--color: rgb(19, 33, 50) !important;
+    --plugin--border: 1px solid rgb(19, 33, 50) !important;
+    --plugin--background: rgb(7, 8, 29) !important;
+    background: rgb(7, 8, 29) !important;
+}
+
+perspective-viewer {
+    font-family: 'Lato' !important;
+    --d3fc-positive--gradient: linear-gradient(
+        #000080,
+        #7d007e,
+        #c0006f,
+        #f10057,
+        #ff473b,
+        #ff8a0b,
+        #ffc600,
+        #ffff00
+    ) !important;
+
+    --d3fc-negative--gradient: linear-gradient(
+        #000080,
+        #7d007e,
+        #c0006f,
+        #f10057,
+        #ff473b,
+        #ff8a0b,
+        #ffc600,
+        #ffff00
+    ) !important;
+
+    --d3fc-full--gradient: linear-gradient(
+        #000080,
+        #7d007e,
+        #c0006f,
+        #f10057,
+        #ff473b,
+        #ff8a0b,
+        #ffc600,
+        #ffff00
+    ) !important;
+}
+
+perspective-workspace {
+    background: rgb(7, 8, 29) !important;
+    --workspace-tabbar--background-color: rgb(7, 8, 29) !important;
+    --workspace-tabbar--border-color: rgb(9, 33, 50) !important;
+    --workspace-tabbar--border: 1px solid rgb(9, 33, 50) !important;
 }

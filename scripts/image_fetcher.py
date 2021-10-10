@@ -24,8 +24,7 @@ def fetch_images():
     }
     TOTAL = 8888
     offset = 50
-    req = requests.get(url, params=params)
-    print(req.json())
+    req = requests.get(url, params=params)    
     json = req.json()["assets"]
 
     urls = {}
@@ -47,8 +46,40 @@ def fetch_images():
 
     return urls
 
+def fetch_accounts():
+    url = ROOT_URL + "/assets"
+    params = {
+        "asset_contract_address": PENGUINS_CONTRACT,
+        "limit": 50,
+        "order_direction": "asc",
+        "offset": 0
+    }
+    TOTAL = 8888
+    offset = 50
+    req = requests.get(url, params=params)
+    urls = {}
+    
+    for side in ["seller_address", "buyer_address"]:
+        json = req.json()["assets"]
+
+        for asset in json:
+            process_image(asset, urls)
+
+        while offset < TOTAL or len(urls) < TOTAL:
+            print("grabbing", offset, offset + 50)
+            params["offset"] = offset
+            req = requests.get(url, params=params)
+            json = req.json()["assets"]
+            for row in json:
+                urls[int(row["token_id"])] = row["image_url"] 
+
+            print(len(urls))
+            offset += 50
+
+    return urls
+
 def download_images(images):
-    SAVE_PATH = os.path.join(HERE, "..", "..", "images")
+    SAVE_PATH = os.path.join(HERE, "..", "images")
 
     for asset_id, image_url in images.items():
         url = image_url + "=s200"
@@ -60,7 +91,7 @@ def download_images(images):
         print("saved", name)
 
 def process_images():
-    PATH = "/Volumes/files/projects/nft_perspective/images"
+    PATH = os.path.join(HERE, "..", "images")
     WIDTH = int(18800 / 4)
     HEIGHT = int(19000 / 4)
     output_image = Image.new("RGB", (WIDTH, HEIGHT), "white")
@@ -108,7 +139,7 @@ def process_images():
             print("Failed at image", input_img, err)
             continue
 
-    output_image.save(os.path.join(PATH, "output", "full_{}.jpg".format(datetime.now())), quality=100)
+    output_image.save(os.path.join(PATH,  "full_{}.jpg".format(datetime.now())), quality=100)
 
     from json import dumps
 
@@ -119,6 +150,13 @@ def process_images():
 
 
 if __name__ == "__main__":
-    process_images()
-    # urls = fetch_images()
-    # download_images(urls)
+    # if not os.path.exists(os.path.join(HERE, "..", "images")):
+    #     os.path.mkdir(os.path.join(HERE, "..", "images"))
+    #     urls = fetch_images()
+    #     download_images(urls)
+        # 0xb33221a56f20702f8d163a2a6929a2269b1aaedc
+    # if not os.path.exists(os.path.join(HERE, "..", "accounts")):
+    # os.path.mkdir(os.path.join(HERE, "..", "accounts"))
+    urls = fetch_accounts()
+    download_images(urls)
+    # process_images()
