@@ -2,7 +2,7 @@
 
 Using [Perspective](https://github.com/finos/perspective), this dashboard interactively visualizes and analyzes [Pudgy Penguins](https://pudgypenguins.io/) NFT sales data using the [OpenSea API](https://docs.opensea.io/reference/api-overview).
 
-###Explore the dashboard [here](https://sc1f.github.io/pudgy-penguin-perspective/).
+### Explore the dashboard [here](https://sc1f.github.io/pudgy-penguin-perspective/).
 
 ![Screenshot of dashboard](https://i.imgur.com/fyoJgxQ.png)
 
