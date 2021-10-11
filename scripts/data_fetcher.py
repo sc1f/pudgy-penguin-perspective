@@ -11,10 +11,14 @@ PENGUINS_CONTRACT = "0xbd3531da5cf5857e7cfaa92426877b022e612cf8"
 ROOT_URL = "https://api.opensea.io/api/v1"
 HERE = os.path.dirname(os.path.realpath(__file__))
 
+STATIC_PATH = os.path.join(HERE, "..", "static")
+ARROW_PATH = os.path.join(HERE, "..", "static", "data.arrow")
+CLEANED_PATH = os.path.join(HERE, "..", "static", "cleaned.arrow")
+
 
 def parse_event(event):
     if not event or event.get("asset") is None:
-        print("Could not parse event: {}".format(event))
+        print("Could not parse event: no asset field")
         return None
 
     parsed = {
@@ -40,8 +44,21 @@ def parse_event(event):
         10 ** event["payment_token"]["decimals"]
     )
 
+    # parsed["seller_address"] = event["seller"]["address"]
+    # parsed["buyer_address"] = event["winner_account"]["address"]
+
+
+
+
     parsed["seller_address"] = event["seller"]["address"]
+    parsed["seller"] = (event["seller"].get("user", None) or dict()).get("username", None)
+    parsed["seller_img_url"] = event["seller"]["profile_img_url"]
+
     parsed["buyer_address"] = event["winner_account"]["address"]
+    parsed["buyer"] = (event["winner_account"].get("user", None) or dict()).get("username", None)
+    parsed["buyer_img_url"] = event["winner_account"]["profile_img_url"]
+
+  
     parsed["transaction_timestamp"] = datetime.fromisoformat(
         event["transaction"]["timestamp"]
     )
@@ -54,10 +71,10 @@ def fetch_events(contract_address):
     """Fetches asset sales for the provided contract address."""
     url = "{}/events".format(ROOT_URL)
     offset = 0
-    limit = 50
+    limit = 200
     params = {
         "asset_contract_address": contract_address,
-        "limit": 50,
+        "limit": limit,
         "event_type": "successful",
         "only_opensea": True,
         "offset": offset,
@@ -70,7 +87,7 @@ def fetch_events(contract_address):
         return
 
     events = res.json()["asset_events"]
-    data = [parse_event(ev) for ev in events]
+    data = [event for event in (parse_event(ev) for ev in events) if event is not None]
 
     print("Fetched {} initial records".format(len(data)))
 
@@ -103,14 +120,11 @@ def fetch_events(contract_address):
 
 
     df = pd.DataFrame(data)
-    print(df.dtypes)
     return df
 
 def clean_existing_arrow():
-    arrow_path = os.path.join(HERE, "..", "static", "data.arrow")
-    new_arrow_path = os.path.join(HERE, "..", "static", "cleaned.arrow")
     new_arrow = None
-    with open(arrow_path, "rb") as arr:
+    with open(ARROW_PATH, "rb") as arr:
         table = Table(arr.read(), index="transaction_hash")
         cols = table.columns()
         view = table.view(columns=[c for c in cols if c not in ("seller_username", "buyer_username")])
@@ -119,18 +133,23 @@ def clean_existing_arrow():
         t2 = Table(df, index="transaction_hash")
         new_arrow = t2.view(columns=[c for c in t2.columns() if c != "index"]).to_arrow()
 
-    with open(new_arrow_path, "wb") as new_arrow_binary:
+    with open(CLEANED_PATH, "wb") as new_arrow_binary:
         new_arrow_binary.write(new_arrow)
     
     print("Saved new cleaned.arrow")
 
 
 if __name__ == "__main__":
-    # df = fetch_events(PENGUINS_CONTRACT)
-    # table = Table(df, index="transaction_hash")
-    # arrow = table.view().to_arrow()
-    # arrow_path = os.path.join(HERE, "..", "static", "data.arrow")
-    # with open(arrow_path, "wb") as arrow_binary:
-    #     arrow_binary.write(arrow)
-    #     print("Saved arrow to: {}".format(arrow_path))
+    if not os.path.exists(ARROW_PATH) or not os.path.exists(CLEANED_PATH):
+        try:
+            os.mkdir(STATIC_PATH)
+        except:
+            pass
+        df = fetch_events(PENGUINS_CONTRACT)
+        table = Table(df, index="transaction_hash")
+        arrow = table.view().to_arrow()
+        with open(ARROW_PATH, "wb") as arrow_binary:
+            arrow_binary.write(arrow)
+            print("Saved arrow to: {}".format(ARROW_PATH))
+    
     clean_existing_arrow()

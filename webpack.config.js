@@ -29,18 +29,23 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.js$/,
+                enforce: 'pre',
+                use: ['source-map-loader'],
+            },
+            {
                 test: /\.ts(x?)$/,
                 exclude: /node_modules/,
                 loader: "ts-loader"
             },
             {
                 test: /\.css$/,
-                exclude: /node_modules/,
+                exclude: /node_modules\/monaco-editor/,
                 use: [{loader: "style-loader"}, {loader: "css-loader"}]
             }
         ]
     },
     devServer: {
-        contentBase: [path.join(__dirname, "dist"), path.join(__dirname, "./static")]
+        static: [path.join(__dirname, "dist"), path.join(__dirname, "./static")]
     }
 };
