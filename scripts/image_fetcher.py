@@ -150,13 +150,17 @@ def process_images():
 
 
 if __name__ == "__main__":
-    # if not os.path.exists(os.path.join(HERE, "..", "images")):
-    #     os.path.mkdir(os.path.join(HERE, "..", "images"))
-    #     urls = fetch_images()
-    #     download_images(urls)
-        # 0xb33221a56f20702f8d163a2a6929a2269b1aaedc
+    # Download all images first, if we don't have the source
+    if not os.path.exists(os.path.join(HERE, "..", "images")):
+        os.path.mkdir(os.path.join(HERE, "..", "images"))
+        urls = fetch_images()
+        download_images(urls)
+
+        # Generate the main image
+        process_images()
+
+    # TODO: fetch account images
     # if not os.path.exists(os.path.join(HERE, "..", "accounts")):
-    # os.path.mkdir(os.path.join(HERE, "..", "accounts"))
-    urls = fetch_accounts()
-    download_images(urls)
-    # process_images()
+        # os.path.mkdir(os.path.join(HERE, "..", "accounts"))
+        # urls = fetch_accounts()
+        # download_images(urls)

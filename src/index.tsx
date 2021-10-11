@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { useEffect, useRef } from "react";
-import perspective, { Table } from "@finos/perspective";
+import {useEffect, useRef} from "react";
+import perspective, {Table} from "@finos/perspective";
 import chroma from "chroma-js";
 
 import "@finos/perspective-workspace";
@@ -46,32 +46,34 @@ const Workspace = (): React.ReactElement => {
     const workspace = useRef<any>(null);
 
     useEffect(() => {
-     
         if (workspace.current) {
             // Restore a saved config or default
             let config = window.localStorage.getItem(
                 "pudgy_penguins_perspective_workspace_config"
-            )
+            );
 
             const layout = config ? JSON.parse(config) : default_config;
 
             (async function () {
                 await workspace.current.restore(layout);
-                await workspace.current.flush(); 
+                await workspace.current.flush();
             })();
 
             workspace.current.addTable("asset_events", getTable());
             const progress = document.getElementById("progress");
             progress?.setAttribute("style", "display:none;");
 
-            workspace.current.addEventListener("workspace-layout-update", async () => {
-                const config = await workspace.current.save();
-                console.debug("Saving to localStorage:", config);
-                window.localStorage.setItem(
-                    "pudgy_penguins_perspective_workspace_config",
-                    JSON.stringify(config)
-                );
-            });
+            workspace.current.addEventListener(
+                "workspace-layout-update",
+                async () => {
+                    const config = await workspace.current.save();
+                    console.debug("Saving to localStorage:", config);
+                    window.localStorage.setItem(
+                        "pudgy_penguins_perspective_workspace_config",
+                        JSON.stringify(config)
+                    );
+                }
+            );
         }
     });
 
@@ -142,4 +144,3 @@ const App = (): React.ReactElement => {
 window.addEventListener("load", () => {
     ReactDOM.render(<App />, document.getElementById("root"));
 });
-

@@ -1,24 +1,38 @@
-import type { View } from "@finos/perspective";
-import type { PerspectiveViewerElement, PerspectiveViewerPluginElement } from "@finos/perspective-viewer";
+import type {View} from "@finos/perspective";
+import type {
+    PerspectiveViewerElement,
+    PerspectiveViewerPluginElement,
+} from "@finos/perspective-viewer";
 
-function style_listener(viewer_id: any, image: any, table: any, viewer: any): void {
+function style_listener(
+    viewer_id: any,
+    image: any,
+    table: any,
+    viewer: any
+): void {
     viewer.save().then((config: any) => {
         const html_table = table.children[0].children[1];
         const num_rows = html_table.rows.length;
         const num_row_pivots = config["row_pivots"]?.length || 0;
         const rpidx = config["row_pivots"]?.indexOf("image");
 
-        // Only render the same image once per cycle
-        const rendered_assets = new Set();
-
-        for (let ridx = 0; ridx < table.children[0].children[0].rows.length; ridx++) {
+        for (
+            let ridx = 0;
+            ridx < table.children[0].children[0].rows.length;
+            ridx++
+        ) {
             const row = table.children[0].children[0].rows[ridx];
             for (let cidx = 0; cidx < row.cells.length; cidx++) {
                 const th = row.cells[cidx];
                 const meta = table.getMeta(th);
-                const type = table.parentElement.model._schema[meta.column_header[meta.column_header.length - 1]];
-                th.classList.toggle("is-timestamp", type === "date" || type === "datetime");
-
+                const type =
+                    table.parentElement.model._schema[
+                        meta.column_header[meta.column_header.length - 1]
+                    ];
+                th.classList.toggle(
+                    "is-timestamp",
+                    type === "date" || type === "datetime"
+                );
             }
         }
 
@@ -38,9 +52,7 @@ function style_listener(viewer_id: any, image: any, table: any, viewer: any): vo
                     rpidx + 1 === meta.row_header_x &&
                     meta.value !== ""
                 ) {
-                    const row_path = meta.value
-                        .toString()
-                        .replace(/,/g, "");
+                    const row_path = meta.value.toString().replace(/,/g, "");
 
                     if (!row_path) {
                         continue;
@@ -48,15 +60,19 @@ function style_listener(viewer_id: any, image: any, table: any, viewer: any): vo
 
                     const asset_id = row_path;
                     td.innerHTML = "";
-                    td.appendChild(
-                        makeCanvas(viewer_id, asset_id, image)
-                    );
+                    td.appendChild(makeCanvas(viewer_id, asset_id, image));
 
                     break;
                 }
 
-                const type = table.parentElement.model._schema[meta.column_header?.[meta.column_header?.length - 1]];
-                td.classList.toggle("is-timestamp", type === "date" || type === "datetime");
+                const type =
+                    table.parentElement.model._schema[
+                        meta.column_header?.[meta.column_header?.length - 1]
+                    ];
+                td.classList.toggle(
+                    "is-timestamp",
+                    type === "date" || type === "datetime"
+                );
 
                 // Don't render top row for non pivoted views.
                 // if (ridx == 0) break;
@@ -73,9 +89,7 @@ function style_listener(viewer_id: any, image: any, table: any, viewer: any): vo
                     }
 
                     td.innerHTML = "";
-                    td.appendChild(
-                        makeCanvas(viewer_id, asset_id, image)
-                    );
+                    td.appendChild(makeCanvas(viewer_id, asset_id, image));
                 } else if (
                     matchColumn(meta, "permalink") ||
                     matchColumn(meta, "asset_image_url")
@@ -96,27 +110,48 @@ function style_listener(viewer_id: any, image: any, table: any, viewer: any): vo
 
                     a.classList.add("data-permalink");
                     td.appendChild(a);
+                } else if (
+                    matchColumn(meta, "buyer") ||
+                    matchColumn(meta, "seller") ||
+                    matchColumn(meta, "buyer_address") ||
+                    matchColumn(meta, "seller_address")
+                ) {
+                    // Render HTML links for OpenSea profile
+                    const content = td.innerText;
+
+                    if (content && content !== "-") {
+                        const url = `https://opensea.io/${content}`;
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.target = "blank";
+                        a.innerText = content;
+                        a.classList.add("data-permalink");
+                        td.innerHTML = "";
+                        td.appendChild(a);
+                    }
                 }
             }
         }
     });
 }
 
-const Datagrid = customElements.get("perspective-viewer-datagrid") as typeof PerspectiveViewerPluginElement;
+const Datagrid = customElements.get(
+    "perspective-viewer-datagrid"
+) as typeof PerspectiveViewerPluginElement;
 class CustomDatagrid extends Datagrid {
-    _initialized_datagrid: boolean = false;
+    _initialized_datagrid = false;
 
     // THis hack prevents a bug in workspace due to hard-coded plugin name
     // "Datagrid", but causes console errors ...
     connectedCallback() {
         const viewer = this.parentElement as PerspectiveViewerElement;
-        viewer.addEventListener("perspective-click", event => {
+        viewer.addEventListener("perspective-click", (event) => {
             (event as any).detail.config = {};
         });
     }
 
     async delete() {
-        console.log("WIP");
+        console.debug("WIP");
     }
 
     async draw(view: View) {
@@ -137,17 +172,15 @@ class CustomDatagrid extends Datagrid {
             table.addStyleListener(() => {
                 const viewer_id = viewer.getAttribute("slot") as string;
                 LAST_CANVAS[viewer_id] = 0;
-                style_listener(viewer_id, image, table, viewer)
+                style_listener(viewer_id, image, table, viewer);
             });
 
             await super.draw(view);
         }
-
-        
     }
 
     get name() {
-        return "Custom Datagrid"
+        return "Custom Datagrid";
     }
 }
 
@@ -156,7 +189,7 @@ customElements.get("perspective-viewer").registerPlugin("custom-datagrid");
 
 const VIEWER_CACHE: Record<string, Array<HTMLCanvasElement>> = {};
 const LAST_CANVAS: Record<string, number> = {};
-const MAX_CACHE = 300;
+const MAX_CACHE = 800;
 
 const makeCanvas = (
     viewer_id: string,
@@ -172,15 +205,16 @@ const makeCanvas = (
         LAST_CANVAS[viewer_id] = 0;
     }
 
-    const canvas = cache[LAST_CANVAS[viewer_id]] = cache[LAST_CANVAS[viewer_id]] || (() => {
-        const canvas: HTMLCanvasElement =
-            document.createElement("canvas");
-        canvas.width = 50;
-        canvas.height = 50;
-        return canvas;
-    })();
+    const canvas = (cache[LAST_CANVAS[viewer_id]] =
+        cache[LAST_CANVAS[viewer_id]] ||
+        (() => {
+            const canvas: HTMLCanvasElement = document.createElement("canvas");
+            canvas.width = 50;
+            canvas.height = 50;
+            return canvas;
+        })());
 
-    const ctx = canvas.getContext("2d", { alpha: false });
+    const ctx = canvas.getContext("2d", {alpha: false});
     const sx = (asset_id % 94) * 50;
     const sy = Math.floor(asset_id / 94) * 50;
     ctx?.drawImage(image, sx, sy, 50, 50, 0, 0, 50, 50);

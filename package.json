@@ -7,7 +7,8 @@
     "start": "webpack serve --open",
     "build": "webpack --color",
     "clean": "rimraf dist",
-    "fetch:data": "python3 scripts/data_fetcher.py"
+    "fetch:data": "python3 scripts/data_fetcher.py",
+    "fetch:images": "python3 scripts/image_fetcher.py"
   },
   "author": "tanjunyuan@hotmail.co.uk",
   "license": "Apache-2.0",

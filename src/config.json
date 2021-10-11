@@ -167,7 +167,7 @@
                 "transaction_hash": "count"
             },
             "master": false,
-            "name": "Transactions by time",
+            "name": "# Transactions over time",
             "table": "asset_events",
             "linked": false
         },
@@ -179,6 +179,9 @@
                 },
                 "seller": {
                     "column_size_override": 170.469
+                },
+                "transaction_timestamp": {
+                    "column_size_override": 153
                 }
             },
             "settings": false,
@@ -194,11 +197,15 @@
                 "permalink"
             ],
             "filter": [],
-            "sort": [],
+            "sort": [
+                ["transaction_timestamp", "desc"]
+            ],
             "expressions": [
                 "// Price USD\n\"price\" * \"payment_token_usd_price\""
             ],
-            "aggregates": {},
+            "aggregates": {
+                "image": "unique"
+            },
             "master": false,
             "name": "Blotter",
             "table": "asset_events",

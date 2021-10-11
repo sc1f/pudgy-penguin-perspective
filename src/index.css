@@ -67,12 +67,9 @@
 #reset_config {
     background: transparent;
     border: 1px solid rgb(9, 33, 50);
-    /* border-radius: 3px; */
     color: rgb(66, 182, 230);
-    /* font-family: "Open Sans", sans-serif; */
+    font-family: 'Lato' !important;
     font-size: 11px;
-    /* text-transform: uppercase; */
-    /* font-weight: bold; */
     padding: 10px;
     cursor: pointer;
 }
@@ -108,7 +105,7 @@ perspective-viewer.workspace-master-widget custom-datagrid regular-table tbody t
 }
 
 #progress {
-    background: #f2f4f6;
+    background: rgb(7, 8, 29);
     position: absolute;
     top: 0;
     left: 0;
@@ -133,14 +130,14 @@ perspective-viewer.workspace-master-widget custom-datagrid regular-table tbody t
 .line {
     position: absolute;
     opacity: 0.4;
-    background: rgb(175, 175, 175);
+    background: rgb(40, 43, 105);
     width: 150%;
     height: 5px;
 }
 
 .subline {
     position: absolute;
-    background: rgb(153, 153, 153);
+    background: rgb(60, 63, 122);
     height: 5px;
 }
 
