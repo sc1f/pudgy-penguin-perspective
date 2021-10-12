@@ -13,17 +13,17 @@
   "author": "tanjunyuan@hotmail.co.uk",
   "license": "Apache-2.0",
   "dependencies": {
-    "@finos/perspective": "^1.0.0-rc.2",
-    "@finos/perspective-viewer": "^1.0.0-rc.2",
-    "@finos/perspective-viewer-d3fc": "^1.0.0-rc.2",
-    "@finos/perspective-viewer-datagrid": "^1.0.0-rc.2",
-    "@finos/perspective-workspace": "^1.0.0-rc.2",
+    "@finos/perspective": "^1.0.0",
+    "@finos/perspective-viewer": "^1.0.0",
+    "@finos/perspective-viewer-d3fc": "^1.0.0",
+    "@finos/perspective-viewer-datagrid": "^1.0.0",
+    "@finos/perspective-workspace": "^1.0.0",
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "style-loader": "^3.3.0"
   },
   "devDependencies": {
-    "@finos/perspective-webpack-plugin": "^1.0.0-rc.2",
+    "@finos/perspective-webpack-plugin": "^1.0.0",
     "@types/chroma-js": "^2.1.3",
     "@types/react": "^16.8.6",
     "@types/react-dom": "^16.9.4",
